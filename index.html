@@ -1,0 +1,163 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <title>Index</title>
+  <script type="text/javascript" src="app/bower_components/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="app/bower_components/velocity/jquery.velocity.min.js"></script>
+  <script type="text/javascript" src="app/bower_components/soundmanager2/script/soundmanager2-jsmin.js"></script>
+  <script>
+    soundManager.setup({
+      onready: function() {
+        var mySound = soundManager.createSound({
+          id: 'aSound',
+          url: 'owm.mp3'
+        });
+      
+        mySound.onPosition( 7750, flickOne ).onPosition( 9500, flickTwo ).onPosition( 11750, flickOne ).onPosition( 13500, flickTwo ).onPosition( 15750, flickOne ).onPosition( 17500, flickTwo ).onPosition( 19750, flickOne ).onPosition( 21500, flickTwo ).onPosition( 23750, flickOne ).onPosition( 25500, flickTwo ).onPosition( 27750, flickTwo ).onPosition( 29500, flickOne ).onPosition( 31750, flickTwo ).onPosition( 33500, flickOne ).onPosition( 35750, flickTwo ).onPosition( 37500, flickOne
+          ).onPosition( 38000, flickOne ).onPosition( 38500, flickOne ).onPosition( 39000, flickOne ).onPosition( 39500, flickOne ).onPosition( 37500, flickOne ).onPosition( 38000, flickOne ).onPosition( 38500, flickOne ).onPosition( 39000, flickOne ).onPosition( 39500, flickOne );
+
+        mySound.onPosition(23950, flickThree);
+        mySound.onPosition(24950, flickThree);
+        mySound.onPosition(25950, flickThree);
+        mySound.onPosition(26950, flickThree);
+        mySound.onPosition(27950, flickThree);
+        mySound.onPosition(28950, flickThree);
+        mySound.onPosition(29950, flickThree);
+        mySound.onPosition(39500, flickThree);
+        mySound.onPosition(31950, flickThree);
+        mySound.onPosition(32950, flickThree);
+        mySound.onPosition(33950, flickThree);
+        mySound.onPosition(34950, flickThree);
+        mySound.onPosition(35950, flickThree);
+        mySound.onPosition(36950, flickThree);
+        mySound.onPosition(37950, flickThree);
+        mySound.onPosition(38950, flickThree);
+        mySound.onPosition(38500, flickThree);
+        mySound.onPosition(39950, flickThree);
+        
+
+        mySound.play();
+
+        $('#one').velocity({ backgroundSize: '400%' }, { duration: 7300 }).velocity({ opacity: 0 }, 230 ); 
+
+      },
+      ontimeout: function() {
+        // Hrmm, SM2 could not start. Missing SWF? Flash blocked? Show an error, etc.?
+      }
+    });
+
+    var flickOne = function() {
+      $('#two-two').velocity({ opacity: 1 }, 45).velocity({ opacity: 0 }, 45).velocity({ opacity: 1 }, 45).velocity({ opacity: 0 }, 45).velocity({ opacity: 1 }, 45).velocity({ opacity: 0 }, 45).velocity({ opacity: 1 }, 45).velocity({ opacity: 0 }, 45);;
+     }
+
+    var flickTwo = function() {
+      $('#two-two').velocity({ opacity: 1 }, 45).velocity({ opacity: 0 }, 45).velocity({ opacity: 1 }, 45).velocity({ opacity: 0 }, 45).velocity({ opacity: 1 }, 45).velocity({ opacity: 0 }, 45);
+    }
+
+var flickThree = function() {
+  $('#three').velocity({ opacity: 1 }, 50).velocity({ opacity: 0 }, 450)
+}
+
+  </script>
+
+  <style type="text/css">
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, 
+    figure, figcaption, footer, header, hgroup, 
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure, 
+    footer, header, hgroup, menu, nav, section {
+      display: block;
+    }
+    body {
+      line-height: 1;
+    }
+    ol, ul {
+      list-style: none;
+    }
+    blockquote, q {
+      quotes: none;
+    }
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+      content: '';
+      content: none;
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    body {
+      posititon: relative;
+    }
+    #one {
+      position: absolute;
+      background: url(img/1.jpg) center no-repeat;
+      background-size: 100%;
+      width: 100%;
+      height: 100%;
+      z-index: 20;
+    }
+
+    #two {
+      position: absolute;      
+      background: #0a030e;
+      background-size: 100%;
+      width: 100%;
+      height: 100%;
+      z-index: 18;
+    }
+
+    #two-two {
+      position: absolute;            
+      background: url(img/2-2.jpg) center no-repeat;
+      background-size: cover;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+    }
+
+    #three {
+      position: absolute;            
+      background: url(img/3.jpg) center no-repeat;
+      background-size: cover;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      z-index: 19;
+    }
+
+  </style>
+</head>
+<body>
+  <main>
+    <div id="one"></div>
+    
+    <div id="two">
+      <div id="two-two"></div>
+    </div>
+
+    <div id="three"></div>
+ 
+  </main>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "outworld_music",
+  "version": "0.0.0",
+  "authors": [
+    "cas <casska@gmail.com>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "soundmanager2": "*",
+    "velocity": "~0.4.1"
+  }
+}
