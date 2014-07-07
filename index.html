@@ -12,19 +12,26 @@
         var mySound = soundManager.createSound({
           id: 'aSound',
           url: 'owm.mp3'
-        });
-      
+        });        
+
+        mySound.play();
+
+        $('#one').velocity({ backgroundSize: '400%' }, { duration: 8100 }); 
+
+
+        mySound.onPosition( 7900, $('#one').velocity({ opacity: 0 }, 230 ));
+
         mySound.onPosition( 7750, flickOne ).onPosition( 9500, flickTwo ).onPosition( 11750, flickOne ).onPosition( 13500, flickTwo ).onPosition( 15750, flickOne ).onPosition( 17500, flickTwo ).onPosition( 19750, flickOne ).onPosition( 21500, flickTwo ).onPosition( 23750, flickOne ).onPosition( 25500, flickTwo ).onPosition( 27750, flickTwo ).onPosition( 29500, flickOne ).onPosition( 31750, flickTwo ).onPosition( 33500, flickOne ).onPosition( 35750, flickTwo ).onPosition( 37500, flickOne
           ).onPosition( 38000, flickOne ).onPosition( 38500, flickOne ).onPosition( 39000, flickOne ).onPosition( 39500, flickOne ).onPosition( 37500, flickOne ).onPosition( 38000, flickOne ).onPosition( 38500, flickOne ).onPosition( 39000, flickOne ).onPosition( 39500, flickOne );
 
         mySound.onPosition(23950, flickThree);
-        mySound.onPosition(24950, flickThree);
+        mySound.onPosition(24900, flickThree);
         mySound.onPosition(25950, flickThree);
-        mySound.onPosition(26950, flickThree);
+        mySound.onPosition(26900, flickThree);
         mySound.onPosition(27950, flickThree);
-        mySound.onPosition(28950, flickThree);
+        mySound.onPosition(28900, flickThree);
         mySound.onPosition(29950, flickThree);
-        mySound.onPosition(39500, flickThree);
+        mySound.onPosition(30500, flickThree);
         mySound.onPosition(31950, flickThree);
         mySound.onPosition(32950, flickThree);
         mySound.onPosition(33950, flickThree);
@@ -35,11 +42,7 @@
         mySound.onPosition(38950, flickThree);
         mySound.onPosition(38500, flickThree);
         mySound.onPosition(39950, flickThree);
-        
 
-        mySound.play();
-
-        $('#one').velocity({ backgroundSize: '400%' }, { duration: 7300 }).velocity({ opacity: 0 }, 230 ); 
 
       },
       ontimeout: function() {
