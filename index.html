@@ -4,223 +4,34 @@
 
 <title>Index</title>
 <script type="text/javascript" src="app/bower_components/jquery/dist/jquery.min.js"></script>
-<script>
-  function getRandomInt(min, max) {
-	  return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+<script type="text/javascript" src="main.js"></script>
 
-  window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  var source;
-  var buffer;
-  var audioBuffer;
-  var dropArea;
-  var audioContext;
-  var processor;
-  var analyser;
-  var sampleAudioURL = 'owm.mp3';
-  var isPlayingAudio = false;
-
-  // analysis variables
-  var waveData = []; //waveform - from 0 - 1 . no sound is 0.5. Array [binCount]
-  var levelsCount = 4; //should be factor of 512
-  var levelHistory = []; //last 256 ave norm levels
-  var volSens = 1;
-
-  var audio = {
-    init: function() {
-      audioContext = new AudioContext();
-
-      analyser = audioContext.createAnalyser();
-      analyser.smoothingTimeConstant = 0.8; //0<->1. 0 is no time smoothing
-      analyser.fftSize = 64;
-      analyser.connect(audioContext.destination);
-      binCount = analyser.frequencyBinCount; // = 512
-      levelBins = Math.floor(binCount / levelsCount); //number of bins in each level
-      freqByteData = new Uint8Array(binCount);
-      timeByteData = new Uint8Array(binCount);
-
-      // init sound
-      source = audioContext.createBufferSource();
-      source.connect(analyser);
-
-      // Load asynchronously
-      var request = new XMLHttpRequest();
-      request.open('GET', sampleAudioURL, true);
-      request.responseType = 'arraybuffer';
-
-
-      request.onload = function() {
-        audioContext.decodeAudioData(request.response, function(buffer) {
-
-          source.buffer = buffer;
-          source.start(0);
-          isPlayingAudio = true;
-
-        }, function(e) {
-          console.log(e);
-        });
-      };
-
-      request.send();
-    },
-    analyse: function() {
-      //analyser.getByteTimeDomainData(timeByteData);
-      analyser.getByteFrequencyData(timeByteData);
-
-      for (var i = 0; i < binCount; i++) {
-        waveData[i] = ((timeByteData[i] - 128) / 128) * volSens;
-      }
-    },
-    render: function() {
-
-      requestAnimationFrame(audio.render);
-
-      if (isPlayingAudio) {
-
-        audio.analyse();
-
-        var shiftx = waveData[getRandomInt(50, 60)];
-        var shifty = waveData[getRandomInt(410, 470)];
-
-        var zoom = waveData[0] * 0.6;
-        var hue = waveData[3] * 360;
-         
-        var mask = $('#mask');
-        if (mask) {
-          var opacity = (zoom * 9) - 1;
-          mask.css('transform','scale(' + zoom + ',' + zoom + ')').css('opacity', opacity);
-          var current_hue = $('#bg').css('-webkit-filter').replace('hue-rotate(','').replace('deg)','');
-          //console.log( Math.abs( current_hue - hue) );
-          if( Math.abs( current_hue - hue) > 30 ) {
-            $('#bg').css('-webkit-filter','hue-rotate(' + hue  + 'deg)');
-          }
-            
-          $('#test-bar').css('width', zoom * 100  + 'px');
-
-/*
-          if (shiftx > 0.005) {
-            mesh.rotation.x += shiftx;
-          } else {
-            mesh.rotation.x += 0.005;
-          }
-
-          if (shifty > 0.005) {
-            mesh.rotation.y += shifty;
-          } else {
-            mesh.rotation.y += 0.005;
-          }
-
-          if (camera.position.z < 3.6) {
-            camera.position.z = (camera.position.z * (zoom + 1.75));
-          }
-
-          camera.position.z = (camera.position.z * (zoom + 1));
-          */
-
-        }
-
-      } else {
-/*
-        if (mesh) {
-
-          mesh.rotation.x += 0.005;
-          mesh.rotation.y += 0.005;
-
-        }
-*/
-
-      }
-    }
-  };
-  audio.init();
-  audio.render();
-
-</script>
-
-<style type="text/css">
-  html, body, div, span, applet, object, iframe,
-  h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-  a, abbr, acronym, address, big, cite, code,
-  del, dfn, em, img, ins, kbd, q, s, samp,
-  small, strike, strong, sub, sup, tt, var,
-  b, u, i, center,
-  dl, dt, dd, ol, ul, li,
-  fieldset, form, label, legend,
-  table, caption, tbody, tfoot, thead, tr, th, td,
-  article, aside, canvas, details, embed, 
-  figure, figcaption, footer, header, hgroup, 
-  menu, nav, output, ruby, section, summary,
-  time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-  }
-  /* HTML5 display-role reset for older browsers */
-  article, aside, details, figcaption, figure, 
-  footer, header, hgroup, menu, nav, section {
-    display: block;
-  }
-  body {
-    line-height: 1;
-  }
-  ol, ul {
-    list-style: none;
-  }
-  blockquote, q {
-    quotes: none;
-  }
-  blockquote:before, blockquote:after,
-  q:before, q:after {
-    content: '';
-    content: none;
-  }
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
-
-  body {
-    posititon: relative;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-  }
-
-  #bg {
-    background: url(img/bg.jpg) center, #000;
-    background-size: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    -webkit-filter: hue-rotate(0deg);
-    -webkit-transition: all 300ms cubic-bezier(0,.76,.53,.7); /* older webkit */
-    -webkit-transition: all 300ms cubic-bezier(0,.76,.53,.7); 
-    -moz-transition: all 300ms cubic-bezier(0,.76,.53,.7); 
-    -o-transition: all 300ms cubic-bezier(0,.76,.53,.7); 
-    transition: all 300ms cubic-bezier(0,.76,.53,.7); /* custom */
-  }
-
-  #mask {
-    transition: all 400ms ease-out;
-    max-width: 600px;
-    max-width: 90vw;
-    max-height: 90vh;
-  }
-
-
-</style>
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <main>
-    <div id="bg"></div>
-    <img id="mask" src="img/mask.png">
-  </div>
+  <div id="bg"></div>
+  <div id="mask"><img src="img/mask.png"></div>
+  <h1>OUTWORLD MUSIC</h1>
+  <div class="content">
+    <p>Vis no veniam iriure dolorem. Vim nisl cetero ocurreret ut, eos graece voluptatum te. Eos possim lobortis no, an mei quas dolorem denique, id eirmod qualisque corrumpit sit. Vix eligendi consequat te, nisl oratio tractatos est ei.</p>
+
+    <p>Nulla nominati scripserit ne duo, scaevola qualisque ut sed, mel in omnis homero libris. Quidam ceteros mediocrem ex est, ius epicuri suavitate vituperata in. Cu fierent elaboraret pri. Quo ex oblique labores reformidans, te per amet pericula theophrastus. Cum quando partem no, an pri soluta nonumes accommodare, ut eos inani partiendo. Cu solum aliquid nec, cu vis illud imperdiet pertinacia, ei idque primis accusata eam.</p>
+
+    <p>Nam ei augue omnes labore, evertitur disputando vim no, mei ad partem phaedrum singulis. Ne solet accumsan usu, eum ut scripta epicuri recteque. Mel unum impetus et. Et probo omittantur duo, ea brute decore instructior usu. Tale impedit has ei.</p>
+
+    <p>Pri meis congue at, malorum meliore id ius. Ea nullam malorum invidunt ius, duo nemore persecuti ei. In cibo melius per, vim affert mandamus cu. Nam impetus democritum id, sea dolore perpetua consequuntur ea. Brute tollit ut ius, id nam debet mediocrem intellegam.</p>
+
+    <p>No cum autem habemus molestie, eu vix antiopam ocurreret, ne stet menandri accusata sea. Nec ex petentium elaboraret, an adhuc mediocrem quo, pro nullam tempor bonorum an. Nec aliquam detraxit scripserit et, ea sit modus tractatos inciderint. Malis everti constituto id vel, ex delenit epicuri facilisis mei, ridens reformidans has ut. Delicata patrioque no qui, aeque mentitum ei eam. Ne fierent mediocrem suavitate vis, est an assentior moderatius argumentum.</p>
+
+    <p>Eu mei imperdiet delicatissimi, quo no ignota laoreet forensibus. In oblique legimus deserunt sed, facer tritani nam an, pri possit animal gubergren ex. Te errem persius nusquam sed. Odio sale urbanitas et est, tritani voluptatibus eos et, no mutat splendide cum.</p>
+
+    <p>Pro te magna feugait repudiandae, ignota tacimates accusata nam in, case regione in qui. Ne dicat oblique ocurreret eam, natum aperiri vocibus per in, at eos noster scriptorem. Tale utamur quo in. Porro nominavi sea eu, id duo porro facer molestiae. Molestiae delicatissimi vix cu. Ad has tota pertinax.</p>
+
+    <p>Sea enim appetere gloriatur id, vim doming dignissim at. Ne has agam atqui scripserit, id mel soleat deleniti offendit. Has ignota ceteros in, nec at homero dolorum efficiantur. Per rebum audiam delicata ne, vis facilisi partiendo no.</p>
+
+    <p>Eu brute recusabo cum, te usu aperiri bonorum tacimates. Vim ex etiam commodo, posse nominavi in nec. Agam eruditi corpora ius ei, te vidit nostro has. Eos ea fierent platonem, pri stet justo assum ut, dolore fierent ius et. No causae labitur nam, mei labitur omittam et, quo cu eros erant.</p>
+ </div>
 </main>
 </body>
 </html>
