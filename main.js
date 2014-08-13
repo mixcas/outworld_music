@@ -2,6 +2,8 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+var canvas, mask;
+
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
                             window.webkitRequestAnimationFrame || window.oRequestAnimationFrame;
@@ -21,6 +23,8 @@ var levelsCount = 4; //should be factor of 512
 var levelHistory = []; //last 256 ave norm levels
 var volSens = 1;
 var past_zoom = 0;
+
+var mask_size;
 
 var audio = {
   init: function() {
@@ -81,13 +85,14 @@ var audio = {
       var zoom = waveData[0] * 0.6;
       var hue = waveData[3] * 360;
        
-      var mask = $('#mask');
+      //var mask = $('#mask');
       if (mask) {
         if (zoom - past_zoom > 0.02 || zoom - past_zoom < -0.02) {
+          mask.scale( ( paper.view.size.height * zoom ) / mask.bounds.height );
           
           past_zoom = zoom;
           var opacity = (zoom * 9) - 1;
-          mask.css('transform','scale(' + zoom + ',' + zoom + ')').css('opacity', opacity);
+          //mask.css('transform','scale(' + zoom + ',' + zoom + ')').css('opacity', opacity);
         }
 
         if($('#bg').css('-webkit-filter'))
@@ -126,7 +131,7 @@ var audio = {
 
         camera.position.z = (camera.position.z * (zoom + 1));
         */
-
+        paper.view.draw();
       }
 
     } else {
@@ -142,6 +147,61 @@ var audio = {
     }
   }
 };
-audio.init();
-audio.render();
+
+window.onload = function() {
+  // Get a reference to the canvas object
+  canvas = document.getElementById('myCanvas');
+  // Create an empty project and a view for the canvas:
+  paper.setup(canvas);
+
+  // Create a raster from bg
+  bg = new paper.Raster('bg');
+
+  // Scale bg to cover entire canvas
+  if( paper.view.bounds.width > paper.view.bounds.height ) {
+    bg.scale(paper.view.bounds.height / bg.bounds.height)
+  }
+
+  // Move the raster to the center of the view
+  bg.position = paper.view.center;
+
+  // Create raster from bg
+  mask = new paper.Raster('mask');
+
+  // Move the raster to the center of the view
+  mask.position = paper.view.center;
+
+  // Scale mask to fit canvas
+  mask.scale((paper.view.size.height * 0.88) / mask.height);
+  
+
+  // Redraw Canvas
+  paper.view.draw();
+  
+  audio.init();
+  audio.render();
+
+}
+
+window.onresize = function(event) {
+  if( paper.view.bounds.width > paper.view.bounds.height ) {
+    bg.scale(paper.view.bounds.height / bg.bounds.height)
+  }
+
+  // Move the raster to the center of the view
+  bg.position = paper.view.center;
+
+  
+  // Move the raster to the center of the view
+  mask.position = paper.view.center;
+
+  // Scale mask to fit canvas
+  mask.scale((paper.view.size.height * 0.88) / mask.height);
+  
+
+  // Redraw Canvas
+  paper.view.draw();
+
+};
+
 
