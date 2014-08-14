@@ -20,5 +20,8 @@
     "jquery": "~2.1.1",
     "soundmanager2": "*",
     "velocity": "~0.4.1"
+  },
+  "devDependencies": {
+    "glfx-bower": "*"
   }
 }

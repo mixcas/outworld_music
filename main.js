@@ -95,7 +95,7 @@ var audio = {
           //mask.css('transform','scale(' + zoom + ',' + zoom + ')').css('opacity', opacity);
         }
 
-        if($('#bg').css('-webkit-filter'))
+        if($('#bg').css('-webkit-filter') )
           var current_hue = $('#bg').css('-webkit-filter').replace('hue-rotate(','').replace('deg)','');
 
         if($('#bg').css('-moz-filter'))
@@ -154,16 +154,6 @@ window.onload = function() {
   // Create an empty project and a view for the canvas:
   paper.setup(canvas);
 
-  // Create a raster from bg
-  bg = new paper.Raster('bg');
-
-  // Scale bg to cover entire canvas
-  if( paper.view.bounds.width > paper.view.bounds.height ) {
-    bg.scale(paper.view.bounds.height / bg.bounds.height)
-  }
-
-  // Move the raster to the center of the view
-  bg.position = paper.view.center;
 
   // Create raster from bg
   mask = new paper.Raster('mask');
@@ -184,13 +174,6 @@ window.onload = function() {
 }
 
 window.onresize = function(event) {
-  if( paper.view.bounds.width > paper.view.bounds.height ) {
-    bg.scale(paper.view.bounds.height / bg.bounds.height)
-  }
-
-  // Move the raster to the center of the view
-  bg.position = paper.view.center;
-
   
   // Move the raster to the center of the view
   mask.position = paper.view.center;

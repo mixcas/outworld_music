@@ -56,19 +56,44 @@ body {
   display: flex;
   justify-content: center;
   align-content: center;
+  font-family: 'Conv_JBLACK', sans-serif;
+  font-size: 36px;
+  line-height: 1.6;
 }
 
+#bg {
+  background: url(img/bg.jpg);
+  background-size: cover;
+  -webkit-filter: hue-rotate(0deg);
+  -moz-filter: hue-rotate(0deg);
+  -o-filter: hue-rotate(0deg);  
+  filter: hue-rotate(0deg);
+  transition: all 50ms ease-out;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  z-index: -2;
+}
 #myCanvas {
   width: 100vw;
   height: 100vh;
   display:block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
 } 
 
 #mask {
   display: none;
 }
 
-#bg {
+.content {
+  padding-top: 95vh;
+  max-width: 500px;
+  z-index: 9999;
+  posititon: relative;
 }
-
-
