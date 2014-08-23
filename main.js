@@ -34,7 +34,7 @@ var Outworld = {
     mask.scale((paper.view.size.height * 0.88) / mask.height);
     
     // Redraw Canvas
-    paper.view.draw();
+    paper.view.update();
 
     // Create audio context
     var audioContext = new AudioContext();
@@ -106,7 +106,7 @@ var Outworld = {
       Outworld.analyse();
 
       // Set zoom level
-      var zoom = waveData[0];
+      var zoom = Math.abs(waveData[0]);
 
       // Set hue level
       var hue = waveData[3] * 360;
@@ -115,7 +115,7 @@ var Outworld = {
       if (mask) {
 
         // if difference with past zoom state is ± 0.02
-        if (zoom - past_zoom > 0.02 || zoom - past_zoom < -0.02) {
+        if ( Math.abs(zoom - past_zoom) > 0.005 ) {
 
           // Apply zoom
           mask.scale( ( paper.view.size.height * zoom ) / mask.bounds.height );
@@ -124,15 +124,16 @@ var Outworld = {
           past_zoom = zoom;
 
         }
-
+        
+        // Get current hue
         if($('#bg').css('-webkit-filter') )
           var current_hue = $('#bg').css('-webkit-filter').replace('hue-rotate(','').replace('deg)','');
 
         if($('#bg').css('-moz-filter'))
           var current_hue_moz = $('#bg').css('-moz-filter').replace('hue-rotate(','').replace('deg)','');
 
-        if( Math.abs( current_hue - hue) > 30 ) {
-        $('#bg').css({
+        if( Math.abs( current_hue - hue) > 20 ) {
+          $('#bg').css({
             '-moz-filter':'hue-rotate(' + hue  + 'deg)',
             '-webkit-filter':'hue-rotate(' + hue  + 'deg)',
             '-o-filter':'hue-rotate(' + hue  + 'deg)',
@@ -140,9 +141,7 @@ var Outworld = {
           });
         }
           
-        $('#test-bar').css('width', zoom * 100  + 'px');
-
-        paper.view.draw();
+        paper.view.update();
       }
 
     } else {
