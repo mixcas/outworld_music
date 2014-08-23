@@ -17,25 +17,28 @@ var Outworld = {
   volSens: 0.9,
   mask: '',
   analyser: '',
+  canvas: '',
+  context: '',
+  ratio: 0,
 
   // Init
   init: function () {
     
     // Create an empty project and a view for the canvas:
-    paper.setup(document.getElementById('myCanvas'));
+    canvas = document.getElementById('myCanvas');
+    context = canvas.getContext('2d');
+
+    // Set full screen canvas
+    canvas.width = document.body.clientWidth; //document.width is obsolete
+    canvas.height = document.body.clientHeight; //document.height is obsolete
 
     // Create raster for mask
-    mask = new paper.Raster('mask');
+    mask = document.getElementById('mask');
+    ratio = mask.width/mask.height;
 
-    // Move the raster to the center of the view
-    mask.position = paper.view.center;
-
-    // Scale mask to fit canvas
-    mask.scale((paper.view.size.height * 0.88) / mask.height);
+    // Draw mask centered and scale 80% of canvas size.
+    Outworld.scaleMask(1);
     
-    // Redraw Canvas
-    paper.view.update();
-
     // Create audio context
     var audioContext = new AudioContext();
 
@@ -81,6 +84,24 @@ var Outworld = {
     request.send();
   },
 
+  clear: function () {
+    context.clearRect ( 0, 0, canvas.width, canvas.height );  
+  },
+
+  scaleMask: function ( scale ) {
+    if ( scale != undefined ) {
+      Outworld.clear();
+      debugger;
+      context.drawImage(
+        mask, // Image
+        ( canvas.width - canvas.height * 0.8 * ratio * scale ) / 2, // X
+        ( canvas.height - canvas.height * 0.8 * scale ) / 2 , // Y
+        canvas.height * 0.8 * ratio * scale, // Width
+        canvas.height * 0.8 * scale // Height
+      );
+    }
+  },
+
   analyse: function () {
     
     var freqByteData = new Uint8Array(binCount);
@@ -113,18 +134,13 @@ var Outworld = {
        
       // if Mask exist
       if (mask) {
-
-        // if difference with past zoom state is ± 0.02
-        if ( Math.abs(zoom - past_zoom) > 0.005 ) {
-
-          // Apply zoom
-          mask.scale( ( paper.view.size.height * zoom ) / mask.bounds.height );
-          
-          // Save new zoom state for future reference
-          past_zoom = zoom;
-
-        }
         
+        // Apply zoom
+        Outworld.scaleMask(zoom);
+        
+        // Save new zoom state for future reference
+        past_zoom = zoom;
+
         // Get current hue
         if($('#bg').css('-webkit-filter') )
           var current_hue = $('#bg').css('-webkit-filter').replace('hue-rotate(','').replace('deg)','');
@@ -141,7 +157,6 @@ var Outworld = {
           });
         }
           
-        paper.view.update();
       }
 
     } else {
@@ -150,23 +165,21 @@ var Outworld = {
   },
   resize: function () {
  
-    // Move the raster to the center of the view
-    mask.position = paper.view.center;
+        // Set full screen canvas
+    canvas.width = document.body.clientWidth; //document.width is obsolete
+    canvas.height = document.body.clientHeight; //document.height is obsolete
 
-    // Scale mask to fit canvas
-    mask.scale((paper.view.size.height * 0.88) / mask.height);
-    
-
-    // Redraw Canvas
-    paper.view.draw();
 
   }
 };
 
 window.onload = function() { 
-  Outworld.init();
+  Outworld.init();  
 }
 
 window.onresize = function(event) {
   Outworld.resize();
 };
+
+
+
