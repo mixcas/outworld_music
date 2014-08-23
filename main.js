@@ -4,9 +4,8 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequest
 
 
 // analysis variables
-var waveData = []; //waveform - from 0 - 1 . no sound is 0.5. Array [binCount]
-//var levelsCount = 4; //should be factor of 512
-var past_zoom = 0;
+var waveData = [];
+var lastZoom = 0;
 
 var Outworld = {
 
@@ -139,7 +138,7 @@ var Outworld = {
         Outworld.scaleMask(zoom);
         
         // Save new zoom state for future reference
-        past_zoom = zoom;
+        lastZoom = zoom;
 
         // Get current hue
         if($('#bg').css('-webkit-filter') )
@@ -165,7 +164,7 @@ var Outworld = {
   },
   resize: function () {
  
-        // Set full screen canvas
+    // Set full screen canvas
     canvas.width = document.body.clientWidth; //document.width is obsolete
     canvas.height = document.body.clientHeight; //document.height is obsolete
 
