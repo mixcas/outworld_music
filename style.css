@@ -58,7 +58,7 @@ body {
   align-content: center;
   font-family: 'Conv_JBLACK', sans-serif;
   font-size: 36px;
-  line-height: 1.6;
+  line-height: 1.4;
 }
 
 #bg {
@@ -92,8 +92,18 @@ body {
 }
 
 .content {
-  padding-top: 95vh;
-  max-width: 500px;
+  padding: 85vh 40px 0;
+  max-width: 800px;
   z-index: 9999;
-  posititon: relative;
+  position: relative;
+  text-align: justify;
+}
+
+p {
+  margin-bottom: 40px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 120px;
 }
