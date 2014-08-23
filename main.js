@@ -83,10 +83,13 @@ var Outworld = {
     request.send();
   },
 
+  // Clear canvas. Requiered on everyframe
   clear: function () {
     context.clearRect ( 0, 0, canvas.width, canvas.height );  
   },
-
+  
+  // Scale and center mask
+  // @param {Numeber} scale
   scaleMask: function ( scale ) {
     if ( scale != undefined ) {
       Outworld.clear();
@@ -100,6 +103,7 @@ var Outworld = {
       );
     }
   },
+
 
   analyse: function () {
     
