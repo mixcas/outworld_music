@@ -18,7 +18,9 @@ var Outworld = {
   analyser: '',
   canvas: '',
   context: '',
-  ratio: 0,
+  maskRatio: 0,
+  bgRatio: 0,
+  canvasRatio: 0,
 
   // Init
   init: function () {
@@ -30,13 +32,18 @@ var Outworld = {
     // Set full screen canvas
     canvas.width = document.body.clientWidth; //document.width is obsolete
     canvas.height = document.body.clientHeight; //document.height is obsolete
+    canvasRatio = canvas.width/canvas.height;    
+
+    // Create raster for bg
+    bg = document.getElementById('bg');
+    bgRatio = bg.width/bg.height;
 
     // Create raster for mask
     mask = document.getElementById('mask');
-    ratio = mask.width/mask.height;
-
+    maskRatio = mask.width/mask.height;
+      
     // Draw mask centered and scale 80% of canvas size.
-    Outworld.scaleMask(1);
+    Outworld.animateWorld(1,0);
     
     // Create audio context
     var audioContext = new AudioContext();
@@ -88,23 +95,54 @@ var Outworld = {
     context.clearRect ( 0, 0, canvas.width, canvas.height );  
   },
   
-  // Scale and center mask
+  // Animate world: scale and center mask, change hue.
   // @param {Numeber} scale
-  scaleMask: function ( scale ) {
-    if ( scale != undefined ) {
-      Outworld.clear();
-      debugger;
-      context.drawImage(
-        mask, // Image
-        ( canvas.width - canvas.height * 0.8 * ratio * scale ) / 2, // X
-        ( canvas.height - canvas.height * 0.8 * scale ) / 2 , // Y
-        canvas.height * 0.8 * ratio * scale, // Width
-        canvas.height * 0.8 * scale // Height
-      );
+  animateWorld: function ( scale, hue ) {
+    
+    // Defaults
+    scale = typeof scale !== 'undefined' ? scale : 1;
+    hue = typeof hue !== 'undefined' ? hue : 0;
+
+    // Clear canvas
+    Outworld.clear();
+
+    if ( canvasRatio >= bgRatio )  {
+      newBg = {
+        x: 0,
+        y: ( canvas.height - canvas.height ) / 2,
+        width: canvas.width,
+        height: canvas.width / bgRatio
+      }
+    } else {
+      newBg = {
+        x: (canvas.width - canvas.height * bgRatio) /2 ,
+        y: 0,
+        width: canvas.height * bgRatio,
+        height: canvas.height
+      }
     }
+    canvas.width * bgRatio, // Width
+    canvas.height // Height
+    // Draw bg w/hue
+    context.drawImage(
+      bg, // Image
+      newBg.x,
+      newBg.y,
+      newBg.width,
+      newBg.height
+    );
+
+    // Draw new scale
+    context.drawImage(
+      mask, // Image
+      ( canvas.width - canvas.height * 0.8 * maskRatio * scale ) / 2, // X
+      ( canvas.height - canvas.height * 0.8 * scale ) / 2 , // Y
+      canvas.height * 0.8 * maskRatio * scale, // Width
+      canvas.height * 0.8 * scale // Height
+    );
   },
 
-
+  
   analyse: function () {
     
     var freqByteData = new Uint8Array(binCount);
@@ -139,7 +177,7 @@ var Outworld = {
       if (mask) {
         
         // Apply zoom
-        Outworld.scaleMask(zoom);
+        Outworld.animateWorld(zoom, hue);
         
         // Save new zoom state for future reference
         lastZoom = zoom;
@@ -171,6 +209,7 @@ var Outworld = {
     // Set full screen canvas
     canvas.width = document.body.clientWidth; //document.width is obsolete
     canvas.height = document.body.clientHeight; //document.height is obsolete
+    canvasRatio = canvas.width/canvas.height;    
 
 
   }
