@@ -2,7 +2,6 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.oRequestAnimationFrame;
 
-
 // analysis variables
 var waveData = [];
 var lastZoom = 0;
@@ -19,7 +18,6 @@ var Outworld = {
   canvas: '',
   context: '',
   maskRatio: 0,
-  bgRatio: 0,
   canvasRatio: 0,
 
   // Init
@@ -33,10 +31,6 @@ var Outworld = {
     canvas.width = document.body.clientWidth; //document.width is obsolete
     canvas.height = document.body.clientHeight; //document.height is obsolete
     canvasRatio = canvas.width/canvas.height;    
-
-    // Create raster for bg
-    bg = document.getElementById('bg');
-    bgRatio = bg.width/bg.height;
 
     // Create raster for mask
     mask = document.getElementById('mask');
@@ -99,38 +93,24 @@ var Outworld = {
   // @param {Numeber} scale
   animateWorld: function ( scale, hue ) {
     
+    // Get current hue
+    if($('#bg').css('filter') )
+      var current_hue = $('#bg').css('filter').replace('hue-rotate(','').replace('deg)','');
+
+      if( Math.abs( current_hue - hue) > 20 ) {
+        $('#bg').css({
+          '-webkit-filter':'hue-rotate(' + hue  + 'deg)',
+          '-o-filter':'hue-rotate(' + hue  + 'deg)',
+          'filter':'hue-rotate(' + hue  + 'deg)'
+        });
+      }
+
     // Defaults
     scale = typeof scale !== 'undefined' ? scale : 1;
     hue = typeof hue !== 'undefined' ? hue : 0;
 
     // Clear canvas
     Outworld.clear();
-
-    if ( canvasRatio >= bgRatio )  {
-      newBg = {
-        x: 0,
-        y: ( canvas.height - canvas.height ) / 2,
-        width: canvas.width,
-        height: canvas.width / bgRatio
-      }
-    } else {
-      newBg = {
-        x: (canvas.width - canvas.height * bgRatio) /2 ,
-        y: 0,
-        width: canvas.height * bgRatio,
-        height: canvas.height
-      }
-    }
-    canvas.width * bgRatio, // Width
-    canvas.height // Height
-    // Draw bg w/hue
-    context.drawImage(
-      bg, // Image
-      newBg.x,
-      newBg.y,
-      newBg.width,
-      newBg.height
-    );
 
     // Draw new scale
     context.drawImage(
@@ -181,22 +161,6 @@ var Outworld = {
         
         // Save new zoom state for future reference
         lastZoom = zoom;
-
-        // Get current hue
-        if($('#bg').css('-webkit-filter') )
-          var current_hue = $('#bg').css('-webkit-filter').replace('hue-rotate(','').replace('deg)','');
-
-        if($('#bg').css('-moz-filter'))
-          var current_hue_moz = $('#bg').css('-moz-filter').replace('hue-rotate(','').replace('deg)','');
-
-        if( Math.abs( current_hue - hue) > 20 ) {
-          $('#bg').css({
-            '-moz-filter':'hue-rotate(' + hue  + 'deg)',
-            '-webkit-filter':'hue-rotate(' + hue  + 'deg)',
-            '-o-filter':'hue-rotate(' + hue  + 'deg)',
-            'filter':'hue-rotate(' + hue  + 'deg)'
-          });
-        }
           
       }
 

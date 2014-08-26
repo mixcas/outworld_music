@@ -68,12 +68,22 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: 0;
 } 
 
-#mask,
-#bg {
+#mask {
   display: none;
+}
+
+#bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: url(img/bg.jpg) no-repeat center;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  filter: rotate-hue(0deg);
 }
 
 .content {
