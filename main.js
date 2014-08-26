@@ -68,6 +68,9 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequest
             source.start(0);
             source.loop = true;
             this.isPlayingAudio = true;
+            setTimeout(function() {
+              $('.content').fadeIn(5000);
+            }, 300);
             Outworld.render();
 
           }, function (e) {

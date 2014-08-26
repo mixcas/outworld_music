@@ -111,6 +111,7 @@ body {
   position: relative;
   text-align: justify;
   margin: 0 auto;
+  display: none;
 }
 
 p {
