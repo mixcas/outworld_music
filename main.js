@@ -92,23 +92,25 @@ var Outworld = {
   // Animate world: scale and center mask, change hue.
   // @param {Numeber} scale
   animateWorld: function ( scale, hue ) {
-    
-    // Get current hue
-    if($('#bg').css('filter') )
-      var current_hue = $('#bg').css('filter').replace('hue-rotate(','').replace('deg)','');
-
-      if( Math.abs( current_hue - hue) > 20 ) {
-        $('#bg').css({
-          '-webkit-filter':'hue-rotate(' + hue  + 'deg)',
-          '-o-filter':'hue-rotate(' + hue  + 'deg)',
-          'filter':'hue-rotate(' + hue  + 'deg)'
-        });
-      }
 
     // Defaults
     scale = typeof scale !== 'undefined' ? scale : 1;
     hue = typeof hue !== 'undefined' ? hue : 0;
 
+    // Change hue
+    if($('#bg').css('-webkit-filter') ) {
+
+      // Get current hue
+      var current_hue = $('#bg').css('-webkit-filter').replace('hue-rotate(','').replace('deg)','');
+
+      if( Math.abs( current_hue - hue) > 10 ) {
+        $('#bg').css({
+          '-webkit-filter':'hue-rotate(' + hue  + 'deg)',
+          'filter':'hue-rotate(' + hue  + 'deg)'
+        });
+      }
+
+    }
     // Clear canvas
     Outworld.clear();
 
