@@ -73,6 +73,7 @@ var Outworld = {
 
         source.buffer = buffer;
         source.start(0);
+        source.loop = true;
         this.isPlayingAudio = true;
         Outworld.render();
 
@@ -103,7 +104,7 @@ var Outworld = {
       // Get current hue
       var current_hue = $('#bg').css('-webkit-filter').replace('hue-rotate(','').replace('deg)','');
 
-      if( Math.abs( current_hue - hue) > 10 ) {
+      if( Math.abs( current_hue - hue) > 25 ) {
         $('#bg').css({
           '-webkit-filter':'hue-rotate(' + hue  + 'deg)',
           'filter':'hue-rotate(' + hue  + 'deg)'

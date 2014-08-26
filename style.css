@@ -26,6 +26,18 @@ time, mark, audio, video {
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+    font-family: 'kallosmditc_ttmedium';
+    src: url('fonts/405-webfont.eot');
+    src: url('fonts/405-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/405-webfont.woff') format('woff'),
+         url('fonts/405-webfont.ttf') format('truetype'),
+         url('fonts/405-webfont.svg#kallosmditc_ttmedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
   
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -52,13 +64,15 @@ table {
 }
 
 body {
-  posititon: relative;
+  font-family: 'kallosmditc_ttmedium', sans-serif;  
+  position: relative;
   display: flex;
   justify-content: center;
   align-content: center;
-  font-family: 'Conv_JBLACK', sans-serif;
-  font-size: 36px;
+  font-size: 20px;
   line-height: 1.4;
+  text-transform: uppercase;
+  
 }
 
 #myCanvas {
@@ -92,7 +106,7 @@ body {
 
 .content {
   padding: 85vh 40px 0;
-  max-width: 800px;
+  max-width: 700px;
   z-index: 9999;
   position: relative;
   text-align: justify;
@@ -100,10 +114,28 @@ body {
 }
 
 p {
-  margin-bottom: 40px;
+  margin: 0 20px 20px;
+  line-height: 2;
+}
+
+h1, h2 {
+  text-align: center;
+  font-size: 75px;
+  line-height: 1;
+  font-family: 'Conv_JBLACK', sans-serif;  
 }
 
 h1 {
-  text-align: center;
-  font-size: 120px;
+  font-size: 50px;
+}
+
+@media all and (max-width: 480px) and (min-width: 220px) {
+  p {
+    font-size: 0.6em;
+    line-height: 1.8;    
+  }
+
+  h1, h2 {
+    font-size: 40px;
+  }
 }
