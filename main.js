@@ -12,6 +12,7 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequest
       // Settings
       sampleAudioURL: 'owm.mp3',
       isPlayingAudio: false,
+      isMute: false,
       levelsCount: 4,
       volSens: 0.9,
 
@@ -44,8 +45,14 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequest
         this.analyser.smoothingTimeConstant = 0.8;
         this.analyser.fftSize = 64;
 
-        // Connect analyser -> audio context
-        this.analyser.connect(audioContext.destination);
+        // Create volume node
+        this.volume = audioContext.createGain();
+
+        // Connect analyser -> volume
+        this.analyser.connect(this.volume);
+
+        // Connect volume -> audio context
+        this.volume.connect(audioContext.destination);
 
         this.binCount = this.analyser.frequencyBinCount; // = 512
         this.levelBins = Math.floor(this.binCount / this.levelsCount); //number of bins in each level
@@ -71,6 +78,7 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequest
             setTimeout(function() {
               $('.content').fadeIn(5000);
             }, 300);
+              $('#loading').fadeOut(500);
             Outworld.render();
 
           }, function (e) {
@@ -174,16 +182,31 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequest
         this.canvasRatio = this.canvas.width/this.canvas.height;    
 
 
+      },
+
+      mute: function() {
+        if ( Outworld.isMute ) {
+          Outworld.isMute = false;
+          Outworld.volume.gain.value = 1;
+          document.getElementById('mute').innerHTML = "MUTE &#9785;";
+        } else { 
+          Outworld.isMute = true;
+          Outworld.volume.gain.value = 0;
+          document.getElementById('mute').innerHTML = "UNMUTE &#9786;";
+        }
       }
     };
 
   window.onload = function() { 
     Outworld.init();  
+    
+    var mute = document.getElementById('mute');
+    mute.addEventListener("click", Outworld.mute, false);
   }
 
   window.onresize = function(event) {
     Outworld.resize();
   };
-
+  
 })();
 

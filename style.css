@@ -1,15 +1,14 @@
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+h1, h2, h3, h4, h5, h6, p, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
-dl, dt, dd, ol, ul, li,
+dl, dt, dd, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
+canvas, embed, 
+output, ruby, summary,
 time, mark, audio, video {
   margin: 0;
   padding: 0;
@@ -39,31 +38,8 @@ time, mark, audio, video {
 
 }
   
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-  display: block;
-}
 body {
   line-height: 1;
-}
-ol, ul {
-  list-style: none;
-}
-blockquote, q {
-  quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: '';
-  content: none;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-body {
   font-family: 'kallosmditc_ttmedium', sans-serif;  
   position: relative;
   display: flex;
@@ -73,6 +49,49 @@ body {
   line-height: 1.4;
   text-transform: uppercase;
   
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  -ms-transition: all 300ms ease-out;
+  -o-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
+}
+
+p {
+  margin: 0 20px 20px;
+  line-height: 2;
+}
+
+h1, h2 {
+  text-align: center;
+  font-size: 75px;
+  line-height: 1;
+  font-family: 'Conv_JBLACK', sans-serif;  
+}
+
+h1 {
+  font-size: 50px;
+}
+
+
+@media all and (max-width: 480px) and (min-width: 220px) {
+  p {
+    font-size: 0.6em;
+    line-height: 1.8;    
+  }
+
+  h1, h2 {
+    font-size: 40px;
+  }
+}
+
+#loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 99999;
+  font-size: 40px;
+  margin-left: -95px;
+  margin-top: -28px;
 }
 
 #myCanvas {
@@ -114,29 +133,116 @@ body {
   display: none;
 }
 
-p {
-  margin: 0 20px 20px;
-  line-height: 2;
+.maligna-logo {
+  display: block;
+  margin: 0 auto;
+  border-top: 5px solid #000;
+  width: 100%;
+  max-width: 450px;
+  padding-top: 160px;
 }
 
-h1, h2 {
+.maligna-logo img {
+  opacity: 0.8;
+  max-width: 100%;
+}
+
+.maligna-logo:hover img {
+  opacity: 1;
+}
+
+p.maligna-desc {
+  font: 20px/1.6 'Helvetica', sans-serif;
+  text-align: left;
+  max-width: 520px;
+  margin: 0 auto;
+  text-transform: none;
+}
+
+div#mc_embed_signup {
+    max-width: 520px;
+    width: 100%;
+    margin: 40px auto;
+}
+div#mc_embed_signup h3 {
+    text-align: center;
+    font: bold 30px 'Helvetica', sans-serif;
+}
+.mc-field-group {
+    width: 100%;
+}
+.mc-field-group input {
+    width: 100%;
+}
+input#mc-embedded-subscribe {
+    width: 100%;
+}
+
+input[type="email"],
+input[type="submit"] {
+  padding: 10px;
+  border: solid 5px #000;
+  background: transparent;
+  font-size: 24px;
+  font-style: italic;
+  margin: 0;
   text-align: center;
-  font-size: 75px;
-  line-height: 1;
-  font-family: 'Conv_JBLACK', sans-serif;  
 }
 
-h1 {
-  font-size: 50px;
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #000;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #000;
+    opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #000;
+    opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #000;
 }
 
-@media all and (max-width: 480px) and (min-width: 220px) {
-  p {
-    font-size: 0.6em;
-    line-height: 1.8;    
-  }
+input[type="submit"] {
+  cursor: pointer;;
+  cursor: hand;
+  background: #000;
+  color: #fff;
+}
 
-  h1, h2 {
-    font-size: 40px;
-  }
+p.social-links {
+  margin: 40px 0 80px;
+  text-align: center;
+  font-size: 18px;
+}
+
+p.social-links a {
+  color: #000;
+  text-decoration: none;
+}
+
+.music-icons {
+  text-align: center;
+}
+.music-icons img {
+  width: 15%;
+  margin: 20px 10px;
+  min-width: 100px;
+}
+
+#mute {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: #000;
+  color: #fff;
+  padding: 5px;
+  display: block;
+  font: 12px 'Helvetica', sans-serif;
+  opacity: 0.7;
+}
+
+#mute:hover {
+  opacity: 1;
 }
